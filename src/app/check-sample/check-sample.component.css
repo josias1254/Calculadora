@@ -93,9 +93,13 @@
 	background-color: rgba(220, 20, 60, 0.562);
 }
 
+
 .sinal {
 	background-color: #1f1f1f;
 }
 .number:hover {
-	opacity: 0.75;
+ background-color: #ffffff05;
+}
+.igual:hover{
+	background-color: rgba(220, 20, 60, 0.781);
 }

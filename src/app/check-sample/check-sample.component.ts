@@ -55,18 +55,20 @@ export class CheckSampleComponent implements DoCheck {
 
 			case 5:
 			this.porcentagem();
-			this.sinal = '%'
+
 			break
 		}
 
 		this.ficou = this.um;
+
 	}
 
 	// Calcula o que foi armazenado com base nos sinais escolhidos
 
 porcentagem(){
+	if (this.dois.length !== 0){
 	if (this.operacao !== 0) {
-
+		this.sinal = '%'
 		let resto = +this.ficou.join('').replace(",", ".");
 		let numDois = +this.dois.join('').replace(",", ".");
 		let numUm = +this.um.join('').replace(",", ".");
@@ -74,13 +76,12 @@ porcentagem(){
 		let porcentagem = numUm * (numDois / 100)
 
 
-
 		switch (this.operacao) {
 			case 1:
-				this.resultado = numUm + porcentagem + resto;
+				this.resultado = numUm + porcentagem;
 				break;
 			case 2:
-				this.resultado = numUm - porcentagem - resto;
+				this.resultado = numUm - porcentagem;
 				break;
 			case 3:
 				this.resultado = numUm * (numDois / 100);
@@ -94,7 +95,7 @@ porcentagem(){
 		this.operacao = 0;
 	}
 
-
+}
 }
 
 	operar() {
@@ -121,8 +122,8 @@ porcentagem(){
 					break
 			}
 			this.substituir = false;
-			this.ficou = [];
 			this.operacao = 0;
+			this.ficou = [];
 		}
 
 
