@@ -192,7 +192,7 @@ export class CheckSampleComponent implements DoCheck {
 		}
 	}
 
-	// Escuta os números
+	// Escuta os númeross
 
 	entra(caractere:any) {
 		if ( this.tela === '0'){
