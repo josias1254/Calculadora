@@ -22,7 +22,9 @@ export class CheckSampleComponent implements DoCheck {
 	// 0 - vazio
 	// 1 - soma
 	// 2 - menos
-	// 3 - igual
+	// 3 - multiplicacao
+	// 4 - divisão
+	// 5 - porcentagem
 
 	operacao: number = 0;
 	sinal: string = '';
@@ -43,19 +45,57 @@ export class CheckSampleComponent implements DoCheck {
 
 			case 3:
 				this.operacao = 3;
-				this.sinal = '/';
+				this.sinal = '*';
 				break;
 
 			case 4:
 				this.operacao = 4;
-				this.sinal = '*';
+				this.sinal = '/';
 				break;
+
+			case 5:
+			this.porcentagem();
+			this.sinal = '%'
+			break
 		}
 
 		this.ficou = this.um;
 	}
 
 	// Calcula o que foi armazenado com base nos sinais escolhidos
+
+porcentagem(){
+	if (this.operacao !== 0) {
+
+		let resto = +this.ficou.join('').replace(",", ".");
+		let numDois = +this.dois.join('').replace(",", ".");
+		let numUm = +this.um.join('').replace(",", ".");
+
+		let porcentagem = numUm * (numDois / 100)
+
+
+
+		switch (this.operacao) {
+			case 1:
+				this.resultado = numUm + porcentagem + resto;
+				break;
+			case 2:
+				this.resultado = numUm - porcentagem - resto;
+				break;
+			case 3:
+				this.resultado = numUm * (numDois / 100);
+				break
+			case 4:
+				this.resultado = numUm + (numDois / 100);
+				break
+		}
+		this.substituir = false;
+		this.ficou = [];
+		this.operacao = 0;
+	}
+
+
+}
 
 	operar() {
 		if (this.operacao !== 0) {
@@ -64,6 +104,8 @@ export class CheckSampleComponent implements DoCheck {
 			let numUm = +this.um.join('').replace(",", ".");
 			let numDois = +this.dois.join('').replace(",", ".");
 
+
+
 			switch (this.operacao) {
 				case 1:
 					this.resultado = numUm + numDois + resto;
@@ -71,11 +113,19 @@ export class CheckSampleComponent implements DoCheck {
 				case 2:
 					this.resultado = numUm - numDois - resto;
 					break;
+				case 3:
+					this.resultado = numUm  * (numDois + resto);
+					break
+				case 4:
+					this.resultado = numUm / (numDois + resto);
+					break
 			}
 			this.substituir = false;
 			this.ficou = [];
 			this.operacao = 0;
 		}
+
+
 	}
 
 	// Função "Clear"
@@ -142,21 +192,28 @@ export class CheckSampleComponent implements DoCheck {
 		if (this.foi === false) {
 			switch (this.sinal) {
 				case '':
-					this.tela = this.um.join('');
+					this.tela = this.um.join('').replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+					this.ultima = '';
 					break;
 				case '=':
-					this.ultima += this.tela.replace(".", ",")
-					this.tela = this.resultado.toString().replace(".", ",");
+					this.ultima += this.dois.join('').replace(".", ",");
+					this.tela = this.resultado.toString().replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+					this.foi = true;
+					this.sinal = '';
+					break;
+				case '%':
+					this.ultima += this.dois.join('').replace(".", ",") + this.sinal;
+					this.tela = this.resultado.toString().replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
 					this.foi = true;
 					this.sinal = '';
 					break;
 				default:
 					this.ultima = this.um.join('').replace(".", ",") + this.sinal;
-
 					if (this.substituir === false) {
-						this.tela = this.um.join('');
+						this.tela = this.um.join('').replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
 					} else {
-						this.tela = this.dois.join('');
+
+						this.tela = this.dois.join('').replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
 					}
 
 					break;
@@ -175,12 +232,13 @@ export class CheckSampleComponent implements DoCheck {
 				this.tela = this.um.join('')
 			}
 
-			if (this.dois.length === 1 && this.dois[this.um.length - 1] === ','){
-				this.um = [0 , ',']
+			if (this.dois.length === 1 && this.dois[this.dois.length - 1] === ','){
+				this.dois = [0 , ',']
 				this.tela = this.dois.join('')
 			}
 
 		} else {
+
 
 			this.um = this.resultado
 			.toString()
@@ -190,6 +248,7 @@ export class CheckSampleComponent implements DoCheck {
 			this.foi = false;
 			this.dois = [];
 		}
+
 	}
 
 	// Escuta os números
