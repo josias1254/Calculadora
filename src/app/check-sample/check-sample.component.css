@@ -4,13 +4,14 @@
 	max-width: 75%;
 	line-height: 2rem;
 	clear: both;
-	border-style: ridge;
 	border-width: 1px;
-	border-radius: 1px;
 	border: 2px solid black;
 	box-shadow: 0px 8px 23px 14px rgba(0, 0, 0, 0.2), 0px 10px 40px 0 rgba(0, 0, 0, 0.19);
 	background-color: #222;
+	border-radius: 4px
 }
+
+
 
 .menu {
 	display: grid;
@@ -24,6 +25,7 @@
 	padding: 10px 6px 2px;
 	border-bottom: 2px solid rgba(36, 36, 36, 0.39);
 	border-width: 2px;
+	border-radius: 2px;
 	position: center;
 	text-align: right;
 	background-color: #161616;
@@ -33,7 +35,7 @@
 	font-family: "Farfetch Basis", "Helvetica Neue", Arial, sans-serif;
 	margin: 1px;
 	color: rgb(255, 255, 255);
-	font-size: 26px;
+	font-size: 25px;
 	font-display: 1;
 	font-weight: 1px;
 	margin-bottom: 3px;
@@ -102,4 +104,9 @@
 }
 .igual:hover{
 	background-color: rgba(220, 20, 60, 0.781);
+}
+
+.po {
+	border-bottom: #161616;
+	border-width: 10px;
 }

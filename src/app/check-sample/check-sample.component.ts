@@ -1,4 +1,4 @@
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, HostListener} from '@angular/core';
 
 @Component({
 	selector: 'app-check-sample',
@@ -18,6 +18,9 @@ export class CheckSampleComponent implements DoCheck {
 	substituir: boolean = false;
 	limpar: boolean = false;
 	apagar: boolean = false;
+	porcento:number = 0;
+	a: boolean = false;
+
 
 	// 0 - vazio
 	// 1 - soma
@@ -68,31 +71,36 @@ export class CheckSampleComponent implements DoCheck {
 porcentagem(){
 	if (this.dois.length !== 0){
 	if (this.operacao !== 0) {
-		this.sinal = '%'
 		let resto = +this.ficou.join('').replace(",", ".");
 		let numDois = +this.dois.join('').replace(",", ".");
 		let numUm = +this.um.join('').replace(",", ".");
 
-		let porcentagem = numUm * (numDois / 100)
-
-
 		switch (this.operacao) {
 			case 1:
-				this.resultado = numUm + porcentagem;
+				this.porcento = numUm * (numDois / 100);
 				break;
 			case 2:
-				this.resultado = numUm - porcentagem;
+				this.porcento = numUm * (numDois / 100);
 				break;
 			case 3:
-				this.resultado = numUm * (numDois / 100);
+				this.porcento = (numDois / 100) ;
 				break
 			case 4:
-				this.resultado = numUm + (numDois / 100);
+				this.porcento = (numDois / 100) ;
 				break
 		}
+
+
+
+
+
+
+		this.dois = this.porcento
+		.toString()
+		.split(',');
 		this.substituir = false;
 		this.ficou = [];
-		this.operacao = 0;
+		this.sinal = '%'
 	}
 
 }
@@ -100,27 +108,33 @@ porcentagem(){
 
 	operar() {
 		if (this.operacao !== 0) {
+
 			this.sinal = '=';
 			let resto = +this.ficou.join('').replace(",", ".");
 			let numUm = +this.um.join('').replace(",", ".");
 			let numDois = +this.dois.join('').replace(",", ".");
 
+			if (this.ficou.length > 0){
+				numDois = numUm
+			}
 
 
 			switch (this.operacao) {
 				case 1:
-					this.resultado = numUm + numDois + resto;
+					this.resultado = numUm + numDois ;
 					break;
 				case 2:
-					this.resultado = numUm - numDois - resto;
+					this.resultado = numUm -  numDois ;
 					break;
 				case 3:
-					this.resultado = numUm  * (numDois + resto);
+					this.resultado = numUm  * numDois ;
 					break
 				case 4:
-					this.resultado = numUm / (numDois + resto);
+					this.resultado = numUm / numDois ;
 					break
 			}
+
+			this.resultado = +this.resultado.toFixed(2);
 			this.substituir = false;
 			this.operacao = 0;
 			this.ficou = [];
@@ -140,6 +154,8 @@ porcentagem(){
 		this.ultima = '';
 		this.ficou = [];
 		this.substituir = false;
+		this.a = false;
+
 	}
 
 	// Função "Clear Entry"
@@ -197,16 +213,28 @@ porcentagem(){
 					this.ultima = '';
 					break;
 				case '=':
-					this.ultima += this.dois.join('').replace(".", ",");
+
+if (this.a === false){
+	this.ultima += this.tela.replace(".", "a") + this.sinal;
+} else {
+	this.ultima += this.sinal;
+	this.a = false;
+}
+
+
+					if (this.resultado % 1 != 0){
+					this.tela = this.resultado.toFixed(2).toString().replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+				} else {
 					this.tela = this.resultado.toString().replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+				}
 					this.foi = true;
 					this.sinal = '';
 					break;
 				case '%':
-					this.ultima += this.dois.join('').replace(".", ",") + this.sinal;
-					this.tela = this.resultado.toString().replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-					this.foi = true;
-					this.sinal = '';
+					this.ultima += this.dois.join('').replace(".", ",");
+					this.tela = this.dois.join('').replace(".", ",");
+					this.ficou = []
+					this.a = true;
 					break;
 				default:
 					this.ultima = this.um.join('').replace(".", ",") + this.sinal;
@@ -254,7 +282,18 @@ porcentagem(){
 
 	// Escuta os números
 
+
+ // Teclado
+	@HostListener('document:keydown')
+  onDocumentKeydown() {
+		this.operar()
+  }
+
+
+// UI
+
 	entra(caractere:any) {
+
 		if ( this.tela === '0'){
 			this.limpar = true
 		}
