@@ -197,7 +197,7 @@ export class CheckSampleComponent implements DoCheck {
 					break;
 				case '=':
 					if (this.a === false) {
-						this.ultima += this.tela.replace('.', 'a') + this.sinal;
+						this.ultima += this.tela.replace('.', ',') + this.sinal;
 					} else {
 						this.ultima += this.sinal;
 						this.a = false;
@@ -270,8 +270,9 @@ export class CheckSampleComponent implements DoCheck {
 
 	// Teclado
 	@HostListener('document:keydown')
-	onDocumentKeydown() {
+	onDocumentKeydownEnter() {
 		this.operar();
+
 	}
 
 	// UI
