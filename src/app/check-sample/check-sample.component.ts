@@ -1,4 +1,4 @@
-import { Component, DoCheck, HostListener} from '@angular/core';
+import { Component, DoCheck, HostListener } from '@angular/core';
 
 @Component({
 	selector: 'app-check-sample',
@@ -18,9 +18,8 @@ export class CheckSampleComponent implements DoCheck {
 	substituir: boolean = false;
 	limpar: boolean = false;
 	apagar: boolean = false;
-	porcento:number = 0;
+	porcento: number = 0;
 	a: boolean = false;
-
 
 	// 0 - vazio
 	// 1 - soma
@@ -57,81 +56,70 @@ export class CheckSampleComponent implements DoCheck {
 				break;
 
 			case 5:
-			this.porcentagem();
+				this.porcentagem();
 
-			break
+				break;
 		}
 
 		this.ficou = this.um;
-
 	}
 
 	// Calcula o que foi armazenado com base nos sinais escolhidos
 
-porcentagem(){
-	if (this.dois.length !== 0){
-	if (this.operacao !== 0) {
-		let resto = +this.ficou.join('').replace(",", ".");
-		let numDois = +this.dois.join('').replace(",", ".");
-		let numUm = +this.um.join('').replace(",", ".");
+	porcentagem() {
+		if (this.dois.length !== 0) {
+			if (this.operacao !== 0) {
+				let resto = +this.ficou.join('').replace(',', '.');
+				let numDois = +this.dois.join('').replace(',', '.');
+				let numUm = +this.um.join('').replace(',', '.');
 
-		switch (this.operacao) {
-			case 1:
-				this.porcento = numUm * (numDois / 100);
-				break;
-			case 2:
-				this.porcento = numUm * (numDois / 100);
-				break;
-			case 3:
-				this.porcento = (numDois / 100) ;
-				break
-			case 4:
-				this.porcento = (numDois / 100) ;
-				break
+				switch (this.operacao) {
+					case 1:
+						this.porcento = numUm * (numDois / 100);
+						break;
+					case 2:
+						this.porcento = numUm * (numDois / 100);
+						break;
+					case 3:
+						this.porcento = numDois / 100;
+						break;
+					case 4:
+						this.porcento = numDois / 100;
+						break;
+				}
+
+				this.dois = this.porcento.toString().split(',');
+				this.substituir = false;
+				this.ficou = [];
+				this.sinal = '%';
+			}
 		}
-
-
-
-
-
-
-		this.dois = this.porcento
-		.toString()
-		.split(',');
-		this.substituir = false;
-		this.ficou = [];
-		this.sinal = '%'
 	}
-
-}
-}
 
 	operar() {
 		if (this.operacao !== 0) {
-
 			this.sinal = '=';
-			let resto = +this.ficou.join('').replace(",", ".");
-			let numUm = +this.um.join('').replace(",", ".");
-			let numDois = +this.dois.join('').replace(",", ".");
+			let resto = +this.ficou.join('').replace(',', '.');
+			let numUm = +this.um.join('').replace(',', '.');
+			let numDois = +this.dois.join('').replace(',', '.');
 
-			if (this.ficou.length > 0){
-				numDois = numUm
+			if (this.ficou.length > 0) {
+				numDois = numUm;
 			}
-
 
 			switch (this.operacao) {
 				case 1:
-					this.resultado = numUm + numDois ;
+					this.resultado = numUm + numDois;
 					break;
 				case 2:
-					this.resultado = numUm -  numDois ;
+					this.resultado = numUm - numDois;
 					break;
 				case 3:
-					this.resultado = numUm  * numDois ;
-					break
+					this.resultado = numUm * numDois;
+					break;
 				case 4:
-					this.resultado = numUm / numDois ;
-					break
+					this.resultado = numUm / numDois;
+					break;
 			}
 
 			this.resultado = +this.resultado.toFixed(2);
@@ -139,8 +127,6 @@ porcentagem(){
 			this.operacao = 0;
 			this.ficou = [];
 		}
-
-
 	}
 
 	// Função "Clear"
@@ -155,24 +141,24 @@ porcentagem(){
 		this.ficou = [];
 		this.substituir = false;
 		this.a = false;
-
 	}
 
 	// Função "Clear Entry"
 
 	ce() {
-		if (this.foi === false){
-		switch (this.sinal) {
-			case '':
-				this.um = [];
-				break;
+		if (this.foi === false) {
+			switch (this.sinal) {
+				case '':
+					this.um = [];
+					break;
 				default:
 					this.ficou = [];
 					this.dois = [];
 					this.apagar = true;
-					break
-		}}else {
-			this.c()
+					break;
+			}
+		} else {
+			this.c();
 		}
 	}
 
@@ -191,9 +177,7 @@ porcentagem(){
 			this.foi = false;
 			this.ultima = '';
 			this.dois = [];
-			this.um = this.resultado
-				.toString()
-				.split(',');
+			this.um = this.resultado.toString().split(',');
 			this.operacao = 0;
 			this.limpar = true;
 		}
@@ -202,100 +186,99 @@ porcentagem(){
 	// Mostra os números na tela
 
 	ngDoCheck() {
-
-
-
-
 		if (this.foi === false) {
 			switch (this.sinal) {
 				case '':
-					this.tela = this.um.join('').replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+					this.tela = this.um
+						.join('')
+						.replace('.', ',')
+						.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
 					this.ultima = '';
 					break;
 				case '=':
+					if (this.a === false) {
+						this.ultima += this.tela.replace('.', 'a') + this.sinal;
+					} else {
+						this.ultima += this.sinal;
+						this.a = false;
+					}
 
-if (this.a === false){
-	this.ultima += this.tela.replace(".", "a") + this.sinal;
-} else {
-	this.ultima += this.sinal;
-	this.a = false;
-}
-
-
-					if (this.resultado % 1 != 0){
-					this.tela = this.resultado.toFixed(2).toString().replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-				} else {
-					this.tela = this.resultado.toString().replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-				}
+					if (this.resultado % 1 != 0) {
+						this.tela = this.resultado
+							.toFixed(2)
+							.toString()
+							.replace('.', ',')
+							.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
+					} else {
+						this.tela = this.resultado
+							.toString()
+							.replace('.', ',')
+							.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
+					}
 					this.foi = true;
 					this.sinal = '';
 					break;
 				case '%':
-					this.ultima += this.dois.join('').replace(".", ",");
-					this.tela = this.dois.join('').replace(".", ",");
-					this.ficou = []
+					this.ultima += this.dois.join('').replace('.', ',');
+					this.tela = this.dois.join('').replace('.', ',');
+					this.ficou = [];
 					this.a = true;
 					break;
 				default:
-					this.ultima = this.um.join('').replace(".", ",") + this.sinal;
+					this.ultima = this.um.join('').replace('.', ',') + this.sinal;
 					if (this.substituir === false) {
-						this.tela = this.um.join('').replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+						this.tela = this.um
+							.join('')
+							.replace('.', ',')
+							.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
 					} else {
-
-						this.tela = this.dois.join('').replace(".", ",").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+						this.tela = this.dois
+							.join('')
+							.replace('.', ',')
+							.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
 					}
 
 					break;
 			}
 
-
-			if (this.apagar === true){
+			if (this.apagar === true) {
 				this.tela = '';
 				this.apagar = false;
 			}
-			if (this.tela === ''){
+			if (this.tela === '') {
 				this.tela = '0';
 			}
-			if (this.um.length === 1 && this.um[this.um.length - 1] === ','){
-				this.um = [0 , ',']
-				this.tela = this.um.join('')
+			if (this.um.length === 1 && this.um[this.um.length - 1] === ',') {
+				this.um = [0, ','];
+				this.tela = this.um.join('');
 			}
 
-			if (this.dois.length === 1 && this.dois[this.dois.length - 1] === ','){
-				this.dois = [0 , ',']
-				this.tela = this.dois.join('')
+			if (this.dois.length === 1 && this.dois[this.dois.length - 1] === ',') {
+				this.dois = [0, ','];
+				this.tela = this.dois.join('');
 			}
-
 		} else {
-
-
-			this.um = this.resultado
-			.toString()
-			.split(',');
-			this.ultima = this.resultado.toString().replace(".", ",") + this.sinal;
+			this.um = this.resultado.toString().split(',');
+			this.ultima = this.resultado.toString().replace('.', ',') + this.sinal;
 			this.ficou = this.um;
 			this.foi = false;
 			this.dois = [];
 		}
-
 	}
 
 	// Escuta os números
 
-
- // Teclado
+	// Teclado
 	@HostListener('document:keydown')
-  onDocumentKeydown() {
-		this.operar()
-  }
+	onDocumentKeydown() {
+		this.operar();
+	}
 
+	// UI
 
-// UI
-
-	entra(caractere:any) {
-
-		if ( this.tela === '0'){
-			this.limpar = true
+	entra(caractere: any) {
+		if (this.tela === '0') {
+			this.limpar = true;
 		}
 		if (this.foi === false) {
 			if (this.operacao === 0) {
@@ -314,7 +297,6 @@ if (this.a === false){
 		} else {
 			this.c();
 			this.um.push(caractere);
-		}}
-
+		}
 	}
-
+}

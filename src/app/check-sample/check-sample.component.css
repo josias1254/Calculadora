@@ -6,12 +6,11 @@
 	clear: both;
 	border-width: 1px;
 	border: 2px solid black;
-	box-shadow: 0px 8px 23px 14px rgba(0, 0, 0, 0.2), 0px 10px 40px 0 rgba(0, 0, 0, 0.19);
+	box-shadow: 0px 8px 23px 14px rgba(0, 0, 0, 0.2),
+		0px 10px 40px 0 rgba(0, 0, 0, 0.19);
 	background-color: #222;
-	border-radius: 4px
+	border-radius: 4px;
 }
-
-
 
 .menu {
 	display: grid;
@@ -54,17 +53,14 @@
 	margin-bottom: 6px;
 }
 
-
-
-
 .display:hover {
-  cursor: text;
+	cursor: text;
 }
 .tela:hover {
-  cursor: text;
+	cursor: text;
 }
 .ultimo:hover {
-  cursor: text;
+	cursor: text;
 }
 .number {
 	float: left;
@@ -95,14 +91,13 @@
 	background-color: rgba(220, 20, 60, 0.562);
 }
 
-
 .sinal {
 	background-color: #1f1f1f;
 }
 .number:hover {
- background-color: #ffffff05;
+	background-color: #ffffff05;
 }
-.igual:hover{
+.igual:hover {
 	background-color: rgba(220, 20, 60, 0.781);
 }
 
