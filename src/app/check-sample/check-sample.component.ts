@@ -1,4 +1,5 @@
 import { Component, DoCheck, HostListener } from '@angular/core';
+import { EventType } from '@angular/router';
 
 @Component({
 	selector: 'app-check-sample',
@@ -34,6 +35,7 @@ export class CheckSampleComponent implements DoCheck {
 	// Escuta os sinais de operações
 
 	op(op: number) {
+if (this.operacao === 0){
 		switch (op) {
 			case 1:
 				this.operacao = 1;
@@ -52,16 +54,14 @@ export class CheckSampleComponent implements DoCheck {
 
 			case 4:
 				this.operacao = 4;
-				this.sinal = '/';
+				this.sinal = '÷';
 				break;
-
-			case 5:
-				this.porcentagem();
-
-				break;
+		}}else {
+			this.operar();
 		}
 
 		this.ficou = this.um;
+
 	}
 
 	// Calcula o que foi armazenado com base nos sinais escolhidos
@@ -132,8 +132,8 @@ export class CheckSampleComponent implements DoCheck {
 	// Função "Clear"
 
 	c() {
-		this.foi = false;
 		this.operacao = 0;
+		this.foi = false;
 		this.um = [];
 		this.dois = [];
 		this.sinal = '';
@@ -177,9 +177,9 @@ export class CheckSampleComponent implements DoCheck {
 			this.foi = false;
 			this.ultima = '';
 			this.dois = [];
-			this.um = this.resultado.toString().split(',');
 			this.operacao = 0;
 			this.limpar = true;
+			this.um = this.resultado.toString().split(',');
 		}
 	}
 
@@ -197,9 +197,9 @@ export class CheckSampleComponent implements DoCheck {
 					break;
 				case '=':
 					if (this.a === false) {
-						this.ultima += this.tela.replace('.', ',') + this.sinal;
+						this.ultima = this.ultima + ` ${this.tela.replace('.', '')} ${this.sinal}`;
 					} else {
-						this.ultima += this.sinal;
+						this.ultima = `${this.ultima} ${this.sinal}`;
 						this.a = false;
 					}
 
@@ -219,13 +219,17 @@ export class CheckSampleComponent implements DoCheck {
 					this.sinal = '';
 					break;
 				case '%':
-					this.ultima += this.dois.join('').replace('.', ',');
+					this.ultima = `${this.ultima} ${this.dois.join('').replace('.', ',')}`;
 					this.tela = this.dois.join('').replace('.', ',');
 					this.ficou = [];
 					this.a = true;
 					break;
 				default:
-					this.ultima = this.um.join('').replace('.', ',') + this.sinal;
+
+
+
+					this.ultima = `${this.um.join('').replace('.', ',')} ${this.sinal}`;
+
 					if (this.substituir === false) {
 						this.tela = this.um
 							.join('')
@@ -237,7 +241,6 @@ export class CheckSampleComponent implements DoCheck {
 							.replace('.', ',')
 							.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
 					}
-
 					break;
 			}
 
@@ -259,21 +262,76 @@ export class CheckSampleComponent implements DoCheck {
 			}
 		} else {
 			this.um = this.resultado.toString().split(',');
-			this.ultima = this.resultado.toString().replace('.', ',') + this.sinal;
+			this.ultima = `${this.resultado.toString().replace('.', ',')} ${this.sinal}`;
 			this.ficou = this.um;
 			this.foi = false;
 			this.dois = [];
 		}
 	}
 
+
+
+	@HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    console.log(Number(event.key));
+
+		if (Number(event.key)) {
+			this.entra(event.key);
+		} else {
+			switch (event.key) {
+
+				case "0":
+					this.entra(0);
+					break;
+
+				case "Backspace":
+					this.backs();
+					break;
+				case "Escape":
+					this.c();
+					break;
+				case "Enter":
+					this.operar();
+					break;
+				case '=':
+					this.operar();
+					break;
+				case ",":
+				this.entra(".")
+					break
+
+
+
+
+				case '+':
+					this.op(1);
+					break;
+				case '-':
+					this.op(2);
+					break;
+				case '*':
+					this.op(3);
+					break;
+				case '/':
+					this.op(4);
+					break;
+				case '%':
+					this.op(5);
+					break;
+			}
+		}
+
+  }
+
+
+
+
+
+
+
 	// Escuta os números
 
 	// Teclado
-	@HostListener('document:keydown')
-	onDocumentKeydownEnter() {
-		this.operar();
-
-	}
 
 	// UI
 

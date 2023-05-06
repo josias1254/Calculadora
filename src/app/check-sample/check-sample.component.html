@@ -1,4 +1,4 @@
-<div class="tab">
+<div (keydown)="handleKeyboardEvent" class="tab">
 	<div class="tela">
 		<input type="textbox" class="ultimo" value="{{ ultima }}" disabled />
 		<input type="textbox" class="display" value="{{ tela }}" disabled />
@@ -6,7 +6,7 @@
 
 	<!-- <hr /> -->
 
-	<button (click)="op(5)" class="number sinal po">%</button>
+	<button (click)="porcentagem()" class="number sinal po">%</button>
 	<button (click)="ce()" class="number sinal CE">CE</button>
 	<button (click)="c()" class="number sinal C">C</button>
 	<button (click)="backs()" class="number sinal"><<</button>
