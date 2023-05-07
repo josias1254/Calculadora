@@ -27,7 +27,6 @@ export class CalculadoraComponent implements DoCheck {
 	// 2 - menos
 	// 3 - multiplicacao
 	// 4 - divisão
-	// 5 - porcentagem
 
 	operacao: number = 0;
 	sinal: string = '';
@@ -35,33 +34,33 @@ export class CalculadoraComponent implements DoCheck {
 	// Escuta os sinais de operações
 
 	op(op: number) {
-if (this.operacao === 0){
-		switch (op) {
-			case 1:
-				this.operacao = 1;
-				this.sinal = '+';
-				break;
+		if (this.operacao === 0) {
+			switch (op) {
+				case 1:
+					this.operacao = 1;
+					this.sinal = '+';
+					break;
 
-			case 2:
-				this.operacao = 2;
-				this.sinal = '-';
-				break;
+				case 2:
+					this.operacao = 2;
+					this.sinal = '-';
+					break;
 
-			case 3:
-				this.operacao = 3;
-				this.sinal = '*';
-				break;
+				case 3:
+					this.operacao = 3;
+					this.sinal = 'x';
+					break;
 
-			case 4:
-				this.operacao = 4;
-				this.sinal = '÷';
-				break;
-		}}else {
+				case 4:
+					this.operacao = 4;
+					this.sinal = '÷';
+					break;
+			}
+		} else {
 			this.operar();
 		}
 
 		this.ficou = this.um;
-
 	}
 
 	// Calcula o que foi armazenado com base nos sinais escolhidos
@@ -95,6 +94,8 @@ if (this.operacao === 0){
 			}
 		}
 	}
+
+	// Faz a mágica acontecer
 
 	operar() {
 		if (this.operacao !== 0) {
@@ -187,6 +188,8 @@ if (this.operacao === 0){
 
 	ngDoCheck() {
 		if (this.foi === false) {
+			// Executa a cada ação no Document
+
 			switch (this.sinal) {
 				case '':
 					this.tela = this.um
@@ -197,16 +200,17 @@ if (this.operacao === 0){
 					break;
 				case '=':
 					if (this.a === false) {
-						this.ultima = this.ultima + ` ${this.tela.replace('.', '')} ${this.sinal}`;
+						this.ultima =
+							this.ultima + ` ${this.tela.replace('.', '')} ${this.sinal}`;
 					} else {
 						this.ultima = `${this.ultima} ${this.sinal}`;
 						this.a = false;
 					}
 
+					// Aparece apenas 2 decimais no resultado
 					if (this.resultado % 1 != 0) {
 						this.tela = this.resultado
 							.toFixed(2)
-							.toString()
 							.replace('.', ',')
 							.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
 					} else {
@@ -219,16 +223,16 @@ if (this.operacao === 0){
 					this.sinal = '';
 					break;
 				case '%':
-					this.ultima = `${this.ultima} ${this.dois.join('').replace('.', ',')}`;
-					this.tela = this.dois.join('').replace('.', ',');
+					let doiss = +this.dois.join('');
+					this.ultima = `${this.ultima} ${doiss.toFixed(3).replace('.', ',')}`;
+					this.tela = doiss.toFixed(3).replace('.', ',');
 					this.ficou = [];
 					this.a = true;
 					break;
 				default:
-
-
-
 					this.ultima = `${this.um.join('').replace('.', ',')} ${this.sinal}`;
+
+					// Remove o número que ficou e aparece a nova entrada
 
 					if (this.substituir === false) {
 						this.tela = this.um
@@ -244,6 +248,8 @@ if (this.operacao === 0){
 					break;
 			}
 
+			// Mantém o 0 Na tela quando não tem nada
+
 			if (this.apagar === true) {
 				this.tela = '';
 				this.apagar = false;
@@ -251,6 +257,8 @@ if (this.operacao === 0){
 			if (this.tela === '') {
 				this.tela = '0';
 			}
+
+			// Poe um 0 antes do ,
 			if (this.um.length === 1 && this.um[this.um.length - 1] === ',') {
 				this.um = [0, ','];
 				this.tela = this.um.join('');
@@ -262,46 +270,44 @@ if (this.operacao === 0){
 			}
 		} else {
 			this.um = this.resultado.toString().split(',');
-			this.ultima = `${this.resultado.toString().replace('.', ',')} ${this.sinal}`;
+			this.ultima = `${this.resultado.toString().replace('.', ',')} ${
+				this.sinal
+			}`;
 			this.ficou = this.um;
 			this.foi = false;
 			this.dois = [];
 		}
 	}
 
-
+	// Escuta os números do teclado
 
 	@HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    console.log(Number(event.key));
+	handleKeyboardEvent(event: KeyboardEvent) {
+		console.log(Number(event.key));
 
 		if (Number(event.key)) {
 			this.entra(event.key);
 		} else {
 			switch (event.key) {
-
-				case "0":
+				case '0':
 					this.entra(0);
 					break;
 
-				case "Backspace":
+				case 'Backspace':
 					this.backs();
 					break;
-				case "Escape":
+				case 'Escape':
 					this.c();
 					break;
-				case "Enter":
+				case 'Enter':
 					this.operar();
 					break;
 				case '=':
 					this.operar();
 					break;
-				case ",":
-				this.entra(".")
-					break
-
-
-
+				case ',':
+					this.entra('.');
+					break;
 
 				case '+':
 					this.op(1);
@@ -316,24 +322,13 @@ if (this.operacao === 0){
 					this.op(4);
 					break;
 				case '%':
-					this.op(5);
+					this.porcentagem();
 					break;
 			}
 		}
+	}
 
-  }
-
-
-
-
-
-
-
-	// Escuta os números
-
-	// Teclado
-
-	// UI
+	// Escuta os números do UI
 
 	entra(caractere: any) {
 		if (this.tela === '0') {
