@@ -3,10 +3,10 @@ import { EventType } from '@angular/router';
 
 @Component({
 	selector: 'app-check-sample',
-	templateUrl: './check-sample.component.html',
-	styleUrls: ['./check-sample.component.css'],
+	templateUrl: './Calculadora.component.html',
+	styleUrls: ['./Calculadora.component.css'],
 })
-export class CheckSampleComponent implements DoCheck {
+export class CalculadoraComponent implements DoCheck {
 	// Calculadora
 
 	tela = '';
