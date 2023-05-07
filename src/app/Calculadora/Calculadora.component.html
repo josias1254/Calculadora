@@ -1,0 +1,31 @@
+<div (keydown)="handleKeyboardEvent" class="tab">
+	<div class="tela">
+		<input type="textbox" class="ultimo" value="{{ ultima }}" disabled />
+		<input type="textbox" class="display" value="{{ tela }}" disabled />
+	</div>
+
+	<!-- <hr /> -->
+
+	<button (click)="porcentagem()" class="number sinal po">%</button>
+	<button (click)="ce()" class="number sinal CE">CE</button>
+	<button (click)="c()" class="number sinal C">C</button>
+	<button (click)="backs()" class="number sinal"><<</button>
+
+	<button (click)="entra(7)" class="number">7</button>
+	<button (click)="entra(8)" class="number">8</button>
+	<button (click)="entra(9)" class="number">9</button>
+	<button (click)="op(3)" class="number sinal x">x</button>
+	<button (click)="entra(4)" class="number">4</button>
+	<button (click)="entra(5)" class="number">5</button>
+	<button (click)="entra(6)" class="number">6</button>
+	<button (click)="op(2)" class="number sinal -">-</button>
+	<button (click)="entra(1)" class="number">1</button>
+	<button (click)="entra(2)" class="number">2</button>
+	<button (click)="entra(3)" class="number">3</button>
+	<button (click)="op(1)" class="number sinal +">+</button>
+	<button (click)="op(4)" class="number">/</button>
+	<button (click)="entra(0)" class="number">0</button>
+	<button (click)="entra(',')" class="number">,</button>
+	<button (click)="operar()" class="number igual">=</button>
+</div>
+<div class="menu"></div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CheckSampleComponent } from "./check-sample/check-sample.component";
+import { CalculadoraComponent } from "./Calculadora/Calculadora.component";
 
 @Component({
   selector: 'app-root',
