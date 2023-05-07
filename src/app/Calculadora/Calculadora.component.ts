@@ -164,6 +164,7 @@ export class CalculadoraComponent implements DoCheck {
 	}
 
 	// Backspace
+
 	backs() {
 		if (this.foi === false) {
 			switch (this.sinal) {
